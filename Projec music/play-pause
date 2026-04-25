@@ -1,0 +1,183 @@
+#include <LiquidCrystal.h>
+
+
+LiquidCrystal lcd(7,6,5,4,3,2);
+
+#define BTN_UP 8
+#define BTN_DOWN 9
+#define BTN_PLAY 10
+#define BTN_STMENU 11
+#define LED_PLAY 13
+#define LED_STOP A1
+/*
+int btnClicado = 0; 
+int btnLiberado = 0;
+*/
+int estadoMusica = 0;
+int ultimoEstado = -1;//força a atualizar o lcd
+int ultimaMusica = -1;
+
+int musicaAtual = 0;
+
+char nomes[5][16] = {
+  "Mario",
+  "Zelda",
+  "Tetris",
+  "Pokemon",
+  "StarWars"
+};
+
+
+void setup() {
+  lcd.begin(16,2);
+
+  pinMode(BTN_UP, INPUT);
+  pinMode(BTN_DOWN, INPUT);
+  pinMode(BTN_PLAY, INPUT);
+  pinMode(BTN_STMENU, INPUT);
+  pinMode(LED_PLAY, OUTPUT);
+  pinMode(LED_STOP, OUTPUT);
+  telaInicial();
+  mostrarMenu();
+}
+
+void telaInicial() {
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Bem vindo ao");
+  lcd.setCursor(0,1);
+  lcd.print("Music Fei");
+  delay(2000);
+}
+
+
+void mostrarMenu() {
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Selecione:");
+
+  lcd.setCursor(0,1);
+  lcd.print(nomes[musicaAtual]);
+}
+
+
+void tocar_musica(){
+	
+
+  // atualiza o LCD só Quando muda)
+  //utilizei algumas variaveis de "estado" pois estava
+  //dando bugs de visualização
+  if(estadoMusica != ultimoEstado || musicaAtual != ultimaMusica){
+
+    lcd.clear();
+
+    if(estadoMusica == 1) {
+      lcd.setCursor(0,0);
+      lcd.print("Tocando:");
+      lcd.setCursor(0,1);
+      lcd.print(nomes[musicaAtual]);
+    }
+    else if(estadoMusica == 2) {
+      lcd.setCursor(0,0);
+      lcd.print("Pausado:");
+      lcd.setCursor(0,1);
+      lcd.print(nomes[musicaAtual]);
+    }
+	else {
+  		lcd.setCursor(0,0);
+  		lcd.print("Selecione:");
+  		lcd.setCursor(0,1);
+  		lcd.print(nomes[musicaAtual]);
+	}
+
+    ultimoEstado = estadoMusica;
+	ultimaMusica = musicaAtual;
+  }
+
+  
+  if(estadoMusica == 1) {//tocando
+    digitalWrite(LED_PLAY, HIGH);
+    digitalWrite(LED_STOP, LOW);
+  }
+  else if(estadoMusica == 2) {//pausado
+    digitalWrite(LED_PLAY, LOW);
+    digitalWrite(LED_STOP, HIGH);
+  }
+  else {//nadinha
+    digitalWrite(LED_PLAY, LOW);
+    digitalWrite(LED_STOP, LOW);
+  }
+}
+
+void lerMenu() {
+  // next
+  if(digitalRead(BTN_UP) == HIGH) {
+    musicaAtual++;
+    if(musicaAtual > 4) musicaAtual = 0;
+   // mostrarMenu();
+    delay(200);
+  }
+
+  // back(é assim que escreve anterior em ingles?)
+  if(digitalRead(BTN_DOWN) == HIGH) {
+    musicaAtual--;
+    if(musicaAtual < 0) musicaAtual = 4;
+   //mostrarMenu();
+    delay(200);
+  }
+	
+  //play e pause
+  if(digitalRead(BTN_PLAY) == HIGH) {
+  	if(estadoMusica == 0) {
+    	estadoMusica = 1; // começa a tocar
+  	} 
+  	else if(estadoMusica == 1) {
+    	estadoMusica = 2; // pausa
+  	} 
+  	else if(estadoMusica == 2) {
+    	estadoMusica = 1; // volta a tocar
+  	}
+	  delay(300);
+  }
+  
+  //volta ao menu de boas vindas
+  if(digitalRead(BTN_STMENU) == HIGH) {
+
+  estadoMusica = 0;
+
+  digitalWrite(LED_PLAY, LOW);
+  digitalWrite(LED_STOP, LOW);
+
+  telaInicial();   // volta pro "Bem vindo"
+  mostrarMenu();   // depois menu
+
+  delay(300);
+}
+  
+}
+
+void loop() {
+  lerMenu();
+  tocar_musica();
+}
+
+
+
+//esboço 
+/*
+void musica() {
+
+  int melodia[] = {262, 294, 330, 349};
+  int duracao[] = {150, 150, 150, 300};
+
+  int tamanho = 4;
+/*
+  for(int i = 0; i < tamanho; i++) {
+    //tone(BUZZER, melodia[i]);
+    delay(duracao[i]);
+    noTone(BUZZER);
+    delay(50);
+  }
+  }
+  */
+
