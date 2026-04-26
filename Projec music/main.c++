@@ -1,3 +1,4 @@
+/*O arquivo music está completo para colocar no main, ele está integrado com play-pause e tocador de músicas*/
 #include <LiquidCrystal.h>
 
 
