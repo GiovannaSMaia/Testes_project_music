@@ -255,7 +255,7 @@ bool musica() {
         return false;     
     }
 
-    tone(BUZZER, musicas[musicaAtual] [i]);   // (corrigi aqui também!)
+    tone(BUZZER, musicas[musicaAtual] [i]);  
     delay(duracoes[musicaAtual][i]);
     noTone(BUZZER);
     delay(50);
