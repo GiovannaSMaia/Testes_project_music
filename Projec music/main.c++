@@ -7,8 +7,7 @@ LiquidCrystal lcd(7,6,5,4,3,2);
 #define LED_PLAY 13
 #define LED_STOP A1
 #define BUZZER 12
-/*mario
-/
+
 int estadoMusica = 0;
 int ultimoEstado = -1;//força a atualizar o lcd
 int ultimaMusica = -1;
