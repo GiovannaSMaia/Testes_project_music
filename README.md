@@ -125,7 +125,8 @@ Link para o video no youtube: https://youtu.be/7LqwHXfK1y4
 * Linguagem C/C++ (Arduino)
 * Arduino UNO
 * Biblioteca LiquidCrystal
-* Eletrônica básica (circuitos com LEDs, botões e buzzer)
+* Biblioteca Robson Couto de frequências
+* Eletrônica básica (circuitos com LEDs, botões e buzzer) 
 
 
 ## Conclusão
@@ -144,4 +145,4 @@ O projeto contribuiu significativamente para o aprendizado prático de:
 
 ## Autores
 
-Giovana Stofel e Gabriel Matos Lourenço
+Giovana Stofel Maia e Gabriel Matos Lourenço
